@@ -105,12 +105,10 @@ func ==(lhs: Dog, rhs: Dog)->Bool{
 
 Objective-C裡幾乎所有Class皆繼承自NSObject，因此所有的instance幾乎都有**descritpion**和**debugDescription**的property可以呼叫並覆寫，以自定義這物件裡轉為字串描述的依據，但Swift已預設無此機制。
 
-* 現在有一個Person的Struct, 請幫Person加上descritpion的參數, 讓enoch右邊的顯示可以出現 跟 grady的顯示結果相同
-    但名字是依照輸入名字而變化
+ 現在有一個Person的Struct, 請幫Person加上descritpion的參數, 讓enoch右邊的顯示可以出現 跟 grady的顯示結果相同，但名字是依照輸入名字而變化
     "(Person) name: Enoch, age: 18"
 
-    [提示] 
-    有專門的Protocol可以實作喔。
+>[提示] 有專門的Protocol可以實作喔。
     
 ```swift 
 let grady = Grady() //(Person) name: Grady, age: 18
