@@ -132,23 +132,28 @@ print(cArray2[0], cArray2[1], cArray2[2], cArray2[3])
 
 #### 8. 語法日趨完備
 
-    Swift現在還在完備他的語法與基礎型別，從2.0開始，Swift已可見獨立的決心，並導入自有的程式設計模式。相信已經是可以開始嘗試的時機了。
+Swift現在還在完備他的語法與基礎型別，從2.0開始，Swift已可見獨立的決心，並導入自有的程式設計模式，且從Opensource釋出的Swift 3.0目標，Apple已經確定會在2016年秋季推出Swift 3.0時，會完全脫離Foundation的約束，成為完全獨立的語言，另外Swift Opensource後的所有改變與發展都會攤在陽光下，可以提前知道有什麼樣的改變，相信現在已經是可以開始嘗試的時機了。
 
 #### 9. 未來發展 ? 
 
-由於Swift即將Open Source到Linux平台，以及Swift的在語法上與Script Language借鏡不少，加上Apple在LLVM上提供Swift一個有如直譯器的環境。可以看得出來Swift在靈活度將比Objective-C更高，更有彈性。
+由於Swift已經Open Source到Linux平台，以及Swift的在語法上與Script Language借鏡不少，加上Apple在LLVM上提供Swift一個有如直譯器的環境。可以看得出來Swift在靈活度將比Objective-C更高，更有彈性。
 
 雖然現在Swift跟Cocoa的關係還是很緊密，但可以預見的是，未來在Linux平台(甚至更多平台)也可以使用Swift開始寫一些工具。由於Linux是**嵌入式系統**和**伺服器**首選之一，因此或許嵌入式系統，也或許是可以做為Server的處理語言，都是未來可能可以發展的方向。
-    
+
 #### 10. Obj-C 與 Swift 的抉擇?
     
-真的要說的話，現在如果沒有學過Objective-C的人，Swift現在還不是市場驗證最好的時機，但卻是最適合學習的時機。
+真的要說的話，現在如果沒有學過Objective-C的人，Swift現在還不是市場驗證最好的時機，但卻已經是可以開始學習的時機。
 
 因為語法日趨完備，因此變動的幅度也不至於無法掌握。但現在大多數專案還是會要求Objective-C，所以無法保證不會接觸到Objective-C，但不論是開發iOS/OSX，其CocoaTouch/Cocoa Frameworks的介面操作都是相同，所以在切換的過程應不至於太困難。
 
+不過，如果還是會顧忌的朋友，那我還是會建議先從Objective-C開始，畢竟現在大環境還是以Objective-C為主，不過這個現象很快就會改變了。
+
 另外，多了解一個語言亦不是壞事，語法都只是轉換習慣的問題。
 
+
 ---
+
+
 #### 在經驗談的最後，祝大家在未來的Swift之路上都可以一路順利，發現更多Swift的設計之美~亦與大家共勉之😉。
     
     
