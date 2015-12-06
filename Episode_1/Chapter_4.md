@@ -1,27 +1,28 @@
-# 第四章 - 又愛又恨的`？！`－ Optional 操作篇
+# 第四章 - 又愛又恨的`？！` - Optional 操作篇
 
 ### 這章會講到：
-1. 為什麼要有`Optional`
-2. 怎麼使用`Optional`
-3. 如何操作 `?` 和 `!`
-4. 如果遇到一連串`Optional`的情況，我要不斷解開才操作嗎？
+1. 為什麼要有 `Optional`
+2. 怎麼使用 `Optional`
+3. 如何操作`?`和`!`
+4. 如果遇到一連串 `Optional` 的情況，我要不斷解開才能操作嗎？
 
 
 ## 一切都要從 `nil` 與 `crash` 開始說起
-在多數的語言中，一個`nil`值的出現，可以輕易的讓程式產生錯誤，進而被系統強制關閉。一般使用者叫他閃退；開發者叫他崩潰，如何防止`nil`造成的錯誤，各式各樣的檢查早已不可或缺，但無論如何防堵，`nil`總是在程式運行階段(runtime)才會發生，無法在編譯(Compile)就檢查出`nil`發生問題的可能性，也沒有穩定的規則可以找出`nil`的出沒之處。
+在多數的語言中，一個 `nil` 值的出現，可以輕易的讓程式產生錯誤，進而被系統強制關閉。一般使用者叫他閃退；開發者叫他崩潰。如何防止 `nil` 造成的錯誤，各式各樣的檢查早已不可或缺，但無論如何防堵， `nil` 總是在程式運行階段 (runtime) 才會發生，無法在編譯時期 (Compile) 就檢查出 `nil` 發生問題的可能性，也沒有穩定的規則可以找出 `nil` 的出沒之處。
 
-雖然Objective-C有一個有趣的特性，可以對一個`nil`執行method，而不產生錯誤，也不會crash。
+雖然 Objective-C 有一個有趣的特性，可以在物件成為 `nil` 時，執行該物件的 method ，而不產生錯誤，也不會引發 crash 。
 
-1. 這只適用於呼叫method的時候。
-2. 物件是否為`nil`的狀況不明，如果真的發生`nil`執行method的情況，開發者也無從得知。
-3. 功能與預期行為不符時，會很難發現是什麼地方造成的。
+> 1. 這只適用於呼叫 method 的時候。
+> 2. 物件是否為 `nil` 的狀況不明，如果真的發生 `nil` 執行 method 的情況，開發者也無從得知。
+> 3. 功能與預期行為不符時，會很難發現是什麼地方造成的。
 
-因此，以**安全**做為slogan的Swift設計成所有的變數在賦值時只能有值，不能是`nil`，只要接受到`nil`，就會拋出錯誤。
+因此，以**安全**做為訴求的 Swift 設計成所有的變數在賦值時只能有值，不能是 `nil` ，只要接受到 `nil` ，就會拋出錯誤。
 
-## What? 但變數還是有 `nil` 的需求，不是?
+## What? 但變數還是有 `nil` 的需求，不是嗎?
+為了從根本上導入 `nil` 的支援，Swift從導入了 `Optional` 的概念，由 `enum` 實作，但其實 `Optional` 其實不是 Swift 獨有的新特性，在 C# 與語多新興語言都看得到它的蹤跡。
 
-Swift從語法支援上導入了`Optional`，但其實 `Optional` 其實不是Swift獨有的新特性，在C#與語多新興語言都看得到他的蹤跡。也有許多人在其他語言上實作了相關的概念，但不同於一些語言下採用Monad實作的Optional Pattern
-([Monad Design Pattern in Java](http://ingramchen.io/blog/2014/11/monad-design-pattern-in-java.html))， Swift 導入的是語法上根本的機制。
+也有許多人在其他語言上實作了相關的概念，但不同於一些語言下採用 Functional Programming 中 Monad 概念下實作的 Optional Design Pattern
+([Monad Design Pattern in Java](http://ingramchen.io/blog/2014/11/monad-design-pattern-in-java.html))， Swift 在 Compiler 中加強了 Optional 的操作。
 
 ```swift
 let intValue:Int = 0 // 合法
@@ -29,38 +30,40 @@ let intValue2:Int = nil //不合法
 let optionalIntValue:Int? = nil //合法，這是一個Int的Optional
 ```
 
-## 所以`Optional`到底是什麼?
+## 所以 `Optional` 到底是什麼?
 
-`Optional` 是在 Swift 中，做為處理可能存在`nil`值變數的機制，目的是為了減少參數在傳遞過程，可能存在nil的不確定性，可以立即明確地處理 `nil` 發生時的情況，並且可以在Compiler階段就判斷 `nil` 的處理是否合法，以減少 App Crash 的機會。
+`Optional` 是在 Swift 中，做為處理變數是否存在 `nil` 值情怳判斷的機制，目的是為了減少參數在傳遞過程，可能存在 `nil` 的不確定性，可以立即明確地處理 `nil` 發生時的情況，並且可以在 Compiler 階段就檢查對於 `nil` 的處理是否合法，以減少應用程式 Crash 的機會。
 
-`Optional`的定義宣告(這裡只取`Optional`完整宣告的節錄)：
+`Optional` 的定義宣告 ( 這裡只取 `Optional` 完整宣告的節錄 )：
 
 ```swift
-    public enum Optional<Wrapped> : _Reflectable, NilLiteralConvertible {
-        case None
-        case Some(Wrapped)
-    }
+public enum Optional<Wrapped> : _Reflectable, NilLiteralConvertible {
+    case None
+    case Some(Wrapped)
+}
 ```
-從 `Optional` 的宣告中，不難發現 `Optional` 使用的是就是在第一章中`enum`所提到的`Associated Values`的用法，並搭配了第三章的泛型，並取名泛型型別為`Wrapped`，存在兩種可能的`case`：
+從 `Optional` 的宣告中，不難發現 `Optional` 使用的是就是在第一章中 `enum` 所提到的 `Associated Values` 的用法，並搭配了第三章的泛型，並取名泛型型別為 `Wrapped` ，其實 `Optional` 被宣告了兩種可能的 `case`：
 
-1. None : 無值存在
-2. Some : 有值存在
+> 1. None : 無值存在
+> 2. Some : 有值存在
 
 ## `Optional` 就像是一個會爆炸的包裹
-第一章在講`enum`的時候，就有提過**Associated Values Enum**像是一個**容器**。
-我們如果用現實生活中來解釋`Optional`，最適合的莫過於**包裏**了。
+第一章在講 `enum` 的時候，就有提過 **Associated Values Enum** 像是一個**容器**。
+我們如果用現實生活中來解釋 `Optional` ，最適合的莫過於**包裏**了。
 
-一般說來，**包裏**有兩種狀態，並帶一個說明內容物的標籤(tag)：
+一般說來，**包裏**有兩種狀態，並帶一個說明內容物的標籤 (tag) ：
+
+> 1. 裡面沒放東西
+> 2. 裡面放了一台iPad
+
 ![Package](images/ch4/0.png)
 
-1. 裡面沒放東西
-2. 裡面放了一台iPad
-
-如果用Swift語法來說明就是以下這麼一回事了：
+如果用 Swift 語法來說明就是以下這麼一回事了：
 
 ```swift
+// 宣告一個 iPad 的 Struct 以做為後續的例子
 struct iPad {
-	//iPad 的struct
+	//iPad 的 struct
 	var 版本:String
 	var 使用者名字:String? = nil
 	
@@ -75,6 +78,7 @@ struct iPad {
 	
 }
 
+//產生一個 iPad 2
 let 一台iPad2 = iPad(版本: "2",  使用者名字:"Grady Zhuo")
 let 禮物包裏:Optional<iPad> = Optional.Some(一台iPad)
 let 沒有東西的包裏:Optional<iPad> = Optional.None
@@ -84,29 +88,29 @@ let 禮物包裏2:Optional<iPad> = Optional(一台iPad2)
 let 沒有東西的包裏2:Optional<iPad> = Optional()
 ```
 
-那一般看到在**型別**後面的 `?`，如 `Int?` 又是怎麼一回事呢？
+那一般看到在**型別**後面的 `?` ，如 `Int?` 又是怎麼一回事呢？
 
-首先，Swift 的 **語法糖衣** 非常的多，語法糖衣指的是透過更簡易的語法，來達成另一個繁瑣語法的方式. 
+首先， Swift 的 **語法糖衣** 非常的多，語法糖衣指的是透過更簡易的語法，來達成另一個繁瑣語法的方式. 
 
-以`Optional`來說，`?` 就是`Optional`的語法糖衣之一，由上面的例子繼續，可以代換如下寫法：
+以 `Optional` 來說， `?` 就是 `Optional` 的語法糖衣之一，由上面的例子繼續，可以代換如下寫法：
 
 ```swift
 let 一台iPad2 = iPad(版本: "2",  使用者名字:"Grady Zhuo")
 let 禮物包裏 : iPad? = 一台iPad2
 let 沒有東西的包裏:iPad? = nil
 ```
-由上面的例子可以發現，`iPad?` 指的就是 `Optional<iPad>`，另外還簡化的賦值的語法，可以不用再寫 `Optional.Some(…)`、`Optional(...)` 或 `Optional.None`、`Optional()`。
+由上面的例子可以發現， `iPad?` 指的就是 `Optional<iPad>` ，另外還簡化的賦值的語法，可以不用再寫 `Optional.Some(…)` 、 `Optional(...)` 或 `Optional.None` 、 `Optional() `。
 
 ## 這有什麼好處呢？
-如同Apple的解釋，節錄自 Apple 在官方文件中的定義：
+如同 Apple 的解釋，節錄自 Apple 在官方文件中的定義：
 
     * Optionals say either "there is a value, and it equals x"
     or "there isn’t a value at all".
     * Optionals are "safer and more expressive than nil pointers in Objective-C"
 
-**Optional**會**主動描述**這個物件是否存在**nil**的可能性，因此可以讓開發者在第一時間反應出現**nil**時要進行處理。這樣就不會發生看到黑影也開槍的窘境，不用每個變數都要檢查是否為nil，只有在出現Optional的情況下，才需要檢查，也可以減少判斷時所造成的效能成本。
+**Optional** 會**主動描述**這個物件是否存在 **nil** 的可能性，因此可以讓開發者在第一時間反應出現 **nil** 時要進行處理。這樣就不會發生看到黑影也開槍的窘境，不用每個變數都要檢查是否為 nil ，只有在出現 Optional 的情況下，才需要檢查，也可以減少判斷時所造成的效能成本。
 
-#### 放入Optional的過程，術語又叫 Warpped，也就是被*包*起來的意思。
+#### 放入 Optional 的過程，術語又叫 Warpped ，也就是被*包*起來的意思。
 
 ## 裝箱後，如何拆箱?
 
@@ -117,16 +121,15 @@ let 沒有東西的包裏:iPad? = nil
 1. 有禮物：你拆開了，很開心的拿走裡面的禮物。
 2. 沒禮物：你暴走了，把對方打成不成人形(？！
 
-是的，拆禮物本來就會有暴走的風險，`Optional`也一樣，當你試著取出`Optional`裡面的值，也是要承擔crash的風險。 雖然`Optional`已經可以減少大多數的 `nil` 判斷，但遇到`Optional`拆箱的時候到底怎麼拆？又該注意什麼呢？我們有 4 + 1 種方式，以下我們會一一說明。
+是的，拆禮物本來就會有暴走的風險， `Optional` 也一樣，當你試著取出 `Optional` 裡面的值，也是要承擔 crash 的風險。 雖然 `Optional` 已經可以減少大多數的 `nil` 判斷，但遇到 `Optional` 拆箱的時候到底怎麼拆？ 又該注意什麼呢？ 我們有 4 + 1 種方式，以下我們會一一說明。
 
 ```
 * 使用美工小刀
 * 交給朋友檢查
 * 交給第三方信託拆禮物
 * 把自已變成具現化系
+* 番外篇：交給第三方信託拆禮物，但 Scope 不同
 ```
-
-#### `小知識：從Optional取值的過程，術語叫 Unwarpping，也就是 解包 的意思。`
 
 --
 ### 方法一：使用美工小刀
@@ -135,11 +138,11 @@ let 沒有東西的包裏:iPad? = nil
 
 ![Unwrapped](images/ch4/1.png)
 
-Swift中，取出`Optional`裡面的值，具體的機制過程如下：
+Swift 中，取出 `Optional` 裡面的值，具體的機制過程如下：
 
 ```swift
 //繼續延續上面的例子
-//定義一個 拆開包裏 的泛型function
+//定義一個 拆開包裏 的泛型 function
 func 拆開包裏<包裏的內容物>(包裏:Optional<包裏的內容物>)->包裏的內容物 {
     switch 包裏 {
     case .None:
@@ -154,11 +157,11 @@ let 沒東西 = 拆開包裏(沒有東西的包裏) //Crash，么受喔！裡面
 
 ```
 
-由上面的程式碼不難發現，如果**包裏**是一個`.None`的`case`，那就會執行`fatalError("么受喔！裡面沒東西，是要氣死誰？")`，也就是引發crash。
+由上面的程式碼不難發現，如果**包裏**是一個 `.None` 的 `case` ，那就會執行 `fatalError("么受喔！裡面沒東西，是要氣死誰？")` ，也就是引發 crash 。
 
-但不可能每次都要讓開發者自已撰寫這個過程，因此，Apple也貼心的提供了 `!` 這把**美工小刀**，同樣的，這也是**語法糖衣**。
+但不可能每次都要讓開發者自已撰寫這個過程，因此， Apple 也貼心的提供了 `!` 這把**美工小刀**，同樣的，這也是**語法糖衣**。
 
-只要在`Optional`的wrappedValue後面，劃上一刀(加上`!`)，就會執行類似我上面撰寫的邏輯，並拆箱完成，但如果遇到`nil`的情況下，就會觸發Crash。
+只要在 `Optional` 的 wrappedValue 後面，劃上一刀(加上`!`)，就會執行類似我上面撰寫的邏輯，並拆箱完成，但如果遇到 `nil` 的情況下，就會觸發Crash。
 
 ```swift
 //如果是有東西的包裏
@@ -418,3 +421,4 @@ let 使用者名字 = grady.禮物收藏盒?.使用者名字 ?? ""
 
 ## 補充
 1. 不同於C與多數語言會將NULL導向一個空的記憶體位置，或使用一個數值做為NULL的代表，Swift 的 nil 並不存在於真實的記憶體位置，就跟**class**這個詞一樣，只是個**保留字**。 
+2. 從 Optional 取值的過程，術語叫 Unwarpping ，也就是解包的意思。`
