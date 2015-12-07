@@ -26,6 +26,6 @@ Other Resources：
 ##### 3. [Gitbook (翻譯繁體中文版)](https://www.gitbook.com/book/mikimoto/the-swift-programming-language-zh-tw/details)
 ##### 4 [Gitbook (翻譯簡體中文版](https://www.gitbook.com/book/numbbbbb/-the-swift-programming-language-/details)
 
-<br />
+
 ---
 `歡迎加入TCCM Facebook社團，一起讓分享變得更美好~`<br />[Taiwan Cocoa Code Monkey](https://www.facebook.com/groups/twccm)
