@@ -246,4 +246,3 @@ let name = Name(first: "Hello", last: "World", middle: nil)
 grady.changeName(name) //無法接受Name型別的物件
 
 ```
-

@@ -1,14 +1,14 @@
 # 第二章 - 無所不能的Extension
 
-[表二] Objective-C(Category) 與 Swift(Extension) 的比較
+[表二] Objective-C (Category) 與 Swift (Extension) 的比較
 ![table 2](images/ch2/Table2.png)
 
 - **Extension** 等價於 **Objective-C** 的 **Category**
-- **Category**只能作用於**Class**，**Extension**則是所有東西皆可Extend，進行擴充。
-- **Extension**的語法，較**Objective-C**å更為簡單易寫。
+- **Category** 只能作用於 **Class** ， **Extension** 則是所有看得到的型別皆可擴充。
+- **Extension** 的語法，較 **Objective-C** 更為簡單易寫。
 
 ---
-### 基本的Extension使用方式
+### 基本的 Extension 使用方式
 
 ```swift
 import Foundation
@@ -46,7 +46,7 @@ extension Int {
 3.repeats("1")
 ```
 
-### 對泛型Type 進行擴充
+### 對泛型 `Type` 進行擴充
 
 ```swift
 extension Array where  Element : Hashable {
@@ -72,7 +72,7 @@ let stringArray = ["Hello world", "My name is Grady"]
 stringArray.combineHashString()
 ```
 
-### Extend時，實作指定Protocol
+### Extend 時，實作指定 `protocol`
 
 ```swift
 //制作Dog 的 struct, 並只包括 name
@@ -82,7 +82,7 @@ struct Dog {
 
 //產生 dog 的 instance
 let dog = Dog(name: "Money")
-//一開始dog沒有hashValue
+//一開始dog沒有hashValue
 //dog.hashValue
 
 //extend Dog 並 實作 Hashable 的 protocol

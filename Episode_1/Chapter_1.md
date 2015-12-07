@@ -1,12 +1,12 @@
-# 第一章 - Class, Struct and Enum的抉擇
+# 第一章 - Class, Struct and Enum 的抉擇
 
-### Class, Struct and Enum的比較表
+### Class, Struct and Enum 的比較表
 ![table 1](images/ch1/1.png)
 
 ### 其他共同的性質
-1. 都可實作Protocol
-2. 都可使用extension，擴充method
-3. 都可以使用泛型(Generic)
+1. 都可實作 `protocol`
+2. 都可使用 `extension` ，擴充 method
+3. 都可以使用泛型 (Generic)
 ---
 
 ## 🔦Class
@@ -221,7 +221,7 @@ let typeName = getColorName(ColorType.Black) //Black
 let type = ColorType.Black //Black
 
 ```
-### Swift 的Enum可以指定Int以外的型別 (e.g. String)
+### Swift 的 `enum` 可以指定 `Int` 以外的型別 (e.g. `String`)
 
 ```swift
 enum Color : String {
@@ -265,11 +265,12 @@ let colorName = getColorName(.Black)
 
 ### Swift 的 Enum **終極用法**
 
-只有Swift 才有的特性! Associated Values (關聯值)
+只有 Swift 才有的特性 - **Associated Values** (關聯值)
 
-不同於C或許多語言的enum, 不寫case type預設就int
+不同於 C 及許多語言的 `enum` , 如不特別撰寫 `enum` 的 case type ，預設就會是 int 型別。
 
-Swift的enum，可以不寫case型別，甚至可以當"**容器**"。
+而 Swift 的 `enum` ，可以不寫 `case` 型別，甚至可以當"**容器**"。
+
 ```swift
 //宣告一個名為Package的Enum，包含3個case
 enum Package {
@@ -302,7 +303,7 @@ let integer = Package.SomeInteger(integer: 30)
 integer.containInteger() // true
 ```
 
-甚至可以在Array中使用enum達成**指定的多型別Array**的操作，讓Array可以不似[AnyObject]捉摸不定，可以明確的指定型別又可以放超過一種型別。
+甚至可以在 `Array` 中使用 `enum` 達成**指定的多型別 `Array`** 的操作，讓 Array 可以不似 `AnyObject` 捉摸不定，可以明確的指定型別又可以放超過一種型別。
 
 ```swift
 var packages = [Package]()
