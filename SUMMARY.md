@@ -1,6 +1,6 @@
 # Summary
 
-* [作者的話](README.md)
+* [本書介紹](README.md)
 * [首件事 - 魔燕現身](Episode_1/README.md)
    * [序章 - 經驗談](Episode_1/Chapter_0.md)
    * [第一章 - Class, Struct and Enum的抉擇](Episode_1/Chapter_1.md)
