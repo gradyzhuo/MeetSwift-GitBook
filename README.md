@@ -23,7 +23,7 @@ Other Resources：
 
 ##### 1. [iBooks (原文)](https://itunes.apple.com/tw/book/swift-programming-language/id881256329?mt=11)
 ##### 2. [Web (原文)](https://developer.apple.com/library/ios/documentation/Swift/Conceptual/Swift_Programming_Language/index.html#//apple_ref/doc/uid/TP40014097-CH3-ID0) 
-##### 3. [Gitbook (翻譯繁體中文版)](https://www.gitbook.com/book/mikimoto/the-swift-programming-language-zh-tw/details)
+##### 3. [Gitbook (翻譯繁體中文版)](https://www.gitbook.com/book/tommy60703/swift-language-traditional-chinese/details)
 ##### 4 [Gitbook (翻譯簡體中文版](https://www.gitbook.com/book/numbbbbb/-the-swift-programming-language-/details)
 
 
