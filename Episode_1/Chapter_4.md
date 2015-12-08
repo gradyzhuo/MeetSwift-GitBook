@@ -16,6 +16,8 @@
 > 3. 功能與預期行為不符時，會很難發現是什麼地方造成的。
 
 因此，以**安全**做為訴求的 Swift 設計成所有的變數在賦值時只能有值，不能是 `nil` ，只要接受到 `nil` ，就會拋出錯誤。
+![You shall not pass!](images/ch4/2.jpg)
+
 
 ## What? 但變數還是有 `nil` 的需求，不是嗎?
 為了從根本上導入 `nil` 的支援，Swift從導入了 `Optional` 的概念，由 `enum` 實作，但其實 `Optional` 其實不是 Swift 獨有的新特性，在 C# 與語多新興語言都看得到它的蹤跡。
@@ -325,18 +327,24 @@ grady.收禮物(iPad2)
 ```
 
 `let 使用者名字:String = grady.禮物收藏盒.使用者名字`
-如果在 Playground 貼上上面這一句會發現 Xcode 會報錯，也會提供可行之解法。
-會有錯誤是因為「禮物收藏盒」 是 Optional 、「使用者名字」 也是 Optional ，所以在使用上，要先解開後，才可以操作。
+如果在 Playground 貼上上面這一句會發現 Xcode 會報 Error 給你。
 
-那會有幾種處理方法
+因為「禮物收藏盒」 是 Optional 、「使用者名字」 也是 Optional ，補充會提到， Optional 不等於內容物的型別，因此無法使用內容物的屬性及方法。
 
-#### 用 `!` 來進行 `Optional` 的 Unwrapping
+> e.g. [String]? 不等於  [String] ，所以 [String]? 無法使用 map() 或 appendElement()
+ 
+
+所以在使用的時候，就要先一個 Optional 一個 Optional 解開後，才可以處理 Optional 裡面的值。
+
+用前面的 Unwrapping 手段來處理的話，有以下 3 種解法：
+
+#### 1. 用 `!` 來進行 `Optional` 的 Unwrapping
 ```swift
 //這個寫法，我是非常不建議的，因為很容易在過程中有nil發生，就引發crash。
 let 使用者名字:String = grady.禮物收藏盒!.使用者名字!
 ```
 
-#### 用 `if let` 來進行 `Optional` 的Unwrapping
+#### 2. 用 `if let` 來進行 `Optional` 的Unwrapping
 ```swift
 if let 禮物 = grady.禮物收藏盒 {
 	if let 使用者名字 = 禮物.使用者名字 {
@@ -344,22 +352,37 @@ if let 禮物 = grady.禮物收藏盒 {
 	}
 }
 ```
+或是也可以使用 if let 提供的特性，一次解兩個Optional
 
-#### 用 `??` 來進行 `Optional` 的 Unwrapping
 ```swift
-let 禮物 = grady.禮物收藏盒 ?? iPad(版本: "2")
-let 使用者名字 = 禮物.使用者名字 ?? ""
-//如果iPad有值，那使用者名字就會出現Grady Zhuo
-//如果iPad沒有值，那使用者名字變成""
+if let 禮物 = grady.禮物收藏盒, let 使用者名字 = 禮物.使用者名字 {
+    print("使用者名字:\(使用者名字)")
+}
 ```
 
-### 難道不能一行解決，又不用擔心 crash 嗎？
+#### 3. 用 `??` 來進行 `Optional` 的 Unwrapping
+```swift
+//如果禮物有值的情況，那使用者名字就會出現Grady Zhuo
+let 禮物 = grady.禮物收藏盒 ?? iPad(版本: "2")
+let 禮物所有人 = 禮物.使用者名字 ?? "" 
+print("禮物所有人：\(禮物所有人)") //禮物所有人： Grady Zhuo
 
-這時候就要請出**Optional Chaining**，他的用法跟 Objective-C 的**對 `nil` 呼叫不回應有些相似**。 實際的寫法跟用 `!` 來進行 `Optional` 的 Unwrapping 很像，只是把  `!` 換成 `?` ，雖然只是換了一個符號，但意思是完全不同的喔。
+//如果沒有禮物，那使用者名字變成"No Owner"
+let 禮物2 = 人(姓名: "沒有人").禮物收藏盒 ?? iPad(版本: "n")
+let 禮物所有人2 = 禮物2.使用者名字 ?? "No Owner"
+print("禮物所有人2：\(禮物所有人2)") //禮物所有人2： No Owner
+```
 
-**Optional Chaining** 的解釋是這樣的：
+### 有沒有一行快速的解法?
 
-**傳呼參數或 function 的過程中，如果遇到 optional ，其中 optional 有值的話，則假設性的 unwrapping 並往下繼續傳遞，直到語法完成，如果過程中有任何一個參數無值，則直接結束語法，並傳回 nil 。**
+這時候就要請出 **Optional Chaining** ，他的用法跟 Objective-C 的**對 `nil` 呼叫不回應有些相似**。 實際的寫法跟用 `!` 來進行 `Optional` 的 Unwrapping 很像，只是把  `!` 換成 `?` ，雖然只是換了一個符號，但意思是完全不同的喔。
+
+**Optional Chaining** 的解釋如下：
+
+**傳呼參數或 function 的過程中，如果遇到 optional ，會直接忽視 Optional ，並執行下一個語法，直到語法完成，如果過程中有任何一個參數無值，則直接結束語法，並傳回 nil ，而且整個過程會確保不會因為 nil 而 crash 。**
+
+語法表示： 
+> [object]**?.**[property]**?.**[property | method]**?.**[method]
 
 ```swift 
 let 使用者名字:String? = grady.禮物收藏盒?.使用者名字
@@ -379,16 +402,19 @@ if let 使用者名字 = grady.禮物收藏盒?.使用者名字 {
 }
 ```
 
-### 說好的一行解決呢？不能一行就拿到Unwrapping後的結果嗎？
-學會東西就要活用，所以我們可以發現，除了 `!` , 上面有一個語法可以幫助我們快速 Unwrapping 並快速賦值。
+### 還有更快速的寫法嗎？
+當然可以，學會東西就要活用，所以我們可以發現，除了 `!` , 上面有一個語法可以幫助我們快速 Unwrapping 並快速賦值。
 
 就是 `??` ，所以我們可以把 **Optional Chaining** 和 `??` 組合使用，就可以快速的一行完成。
 
 ```swift 
-//假設使用者名字的初使值是空字串
-let 使用者名字 = grady.禮物收藏盒?.使用者名字 ?? ""
-//如果 禮物收藏盒 或 使用者名字 是 nil
-//取得的使用者名字就會是 空字串，反之就會是Grady Zhuo
+// 用前面的grady，可以很順利的取出禮物上的名字
+let 禮物上的名字 = grady.禮物收藏盒?.使用者名字 ?? "No Owner"
+print("禮物上的名字:\(禮物上的名字)") //禮物上的名字:Grady Zhuo
+
+//如果 這禮物收藏盒  是 nil
+let 禮物上的名字2 = 人(姓名: "").禮物收藏盒?.使用者名字 ?? "No Owner"
+print("禮物上的名字2:\(禮物上的名字2)") //禮物上的名字2:No Owner
 ```
 
 ## 練習時間 - JSON的拆拆拆時間
