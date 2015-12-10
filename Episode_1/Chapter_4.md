@@ -37,9 +37,7 @@ let optionalIntValue:Int? = nil //合法，這是一個Int的Optional
 or "there isn’t a value at all".
 > * Optionals are "safer and more expressive than nil pointers in Objective-C"
 
-`Optional` 是在 Swift 中，做為**主動描述**變數是否存在 `nil` 值情況判斷的機制，目的是為了減少變數在傳遞過程，可能存在 `nil` 的不確定性，可以立即明確地處理 `nil` 發生時的情況，並且可以在 編譯時期 (compile time) 就檢查對於 `nil` 的處理是否合法，以減少應用程式 crash 的機會。也不用再針對每個可疑的變數都要檢查是否為 `nil` ，只有在出現 `Optional` 的情況下，才需要檢查，也可以減少判斷時所造成的效能成本。
-
-`Optional` 是在 Swift 中，做為處理變數是否存在 `nil` 值情況判斷的機制，目的是為了減少變數在傳遞過程，可能存在 `nil` 的不確定性，可以立即明確地處理 `nil` 發生時的情況，並且可以在 編譯時期 (compile time) 就檢查對於 `nil` 的處理是否合法，以減少應用程式 crash 的機會。
+`Optional` 是在 Swift 中，做為**主動描述**變數是否存在 `nil` 值情況判斷的機制，目的是為了減少變數在傳遞過程，可能存在 `nil` 的不確定性，可以立即明確地處理 `nil` 發生時的情況，並且可以在 編譯時期 (compile time) 就檢查對於 `nil` 的處理是否合法，以減少應用程式 crash 的機會。
 
 `Optional` 的定義宣告 ( 這裡只取 `Optional` 完整宣告的節錄 )：
 
