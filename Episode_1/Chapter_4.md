@@ -91,7 +91,7 @@ let 沒有東西的包裏:iPad? = nil
 ```
 由上面的例子可以發現， `?` 的導入，不只簡化了宣告，另外還簡化的賦值的語法，可以不用再寫 `Optional.Some(…)` 、 `Optional(...)` 或 `Optional.None` 、 `Optional() `。
 
-#### 放入 Optional 的過程，術語又叫 Warpped ，也就是被*包*起來的意思。
+#### 放入 Optional 的過程，術語又叫 Wrapped ，也就是被*包*起來的意思。
 
 ## 四、來開箱吧！ (Unwrapping)
 
