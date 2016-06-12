@@ -16,24 +16,23 @@
 var name:String! = "Grady"
 ```
 這看起來還算可以理解，就是一個 `String!` 型別的變數，放入了一個字串。
-但為什麼一定要用 `String!` 呢？ 直接寫 `String` 不也可以?
+只是會好奇，為什麼一定要用 `String!` 呢？ 直接寫 `String` 不是也可以?
 
-直到發現 `String!` 也可以放 `nil` ...
+一直到發現 `String!` 也可以放 `nil` ...
 ```swift 
 var name:String! = nil
-```
+
 心中不免困惑了起來…
-```
-咦? 為什麼 ! 又可以放值，又可以放 nil ?
-那它跟 ? 又有什麼不同? 
-為什麼不直接使用 ? 就好了???
-```
----
-會有這樣的疑惑也是很正常的，因為在官方文件中看到 `Optional` 章節的話，官容主要都是講述 `!` 是 Unwrapping 的`語法糖衣`，可以讓 swift 從 `Optional` 中將值取出。 
+> 咦? 為什麼 `!` 又可以放值，又可以放 `nil` ?
+> 那它跟 `?` 又有什麼不同? 
+> 為什麼不直接使用 `?` 就好了呢???
 
-但 Apple 還有一個小小的篇幅在講解 [**Implicitly Unwrapped Optional**](https://developer.apple.com/library/ios/documentation/Swift/Conceptual/Swift_Programming_Language/TheBasics.html#//apple_ref/doc/uid/TP40014097-CH5-ID334)，這又是什麼東東呢？
 
-因為這裡討論的的 `!` 不是操作運算子，而是另一個 `Optional` 機制，名叫 **Implicitly Unwrapped Optional** ，中文叫 **隱式被解開的 Optional** ，有趣的是，它也是一個**enum**，所以其實你完全可以把他當成我們之前討論的 `Optional` 也就豆 `?` 來看待。
+會有這樣的疑惑也是很正常的，因為在官方文件中看到 `Optional` 章節的話，內容講述 的 `!` 是 Unwrapping 的`語法糖衣`，可以讓 swift 從 `Optional` 中將值取出。 
+
+但其實 Apple 還有一個小小的篇幅在講解 [**Implicitly Unwrapped Optional**](https://developer.apple.com/library/ios/documentation/Swift/Conceptual/Swift_Programming_Language/TheBasics.html#//apple_ref/doc/uid/TP40014097-CH5-ID334)，而這又是什麼東東呢？
+
+因為這裡討論的主人翁 `!` 不是操作運算子，就是上面提到的**Implicitly Unwrapped Optional**，這是另一種 `Optional`，中文翻叫 **隱式被解開的 Optional** (好難翻譯XD)，有趣的是，它也是一個 `enum` ，機制與 `Optional` 一模一樣，所以其實你完全可以把他當成我們之前討論的 `Optional` 也就是 `?` 來看待。
 
 ## 為什麼要搞兩個 Optional ?
 
