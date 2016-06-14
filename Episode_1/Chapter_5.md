@@ -21,6 +21,7 @@ var name:String! = "Grady"
 一直到發現 `String!` 也可以放 `nil` ...
 ```swift 
 var name:String! = nil
+```
 
 心中不免困惑了起來…
 > 咦? 為什麼 `!` 又可以放值，又可以放 `nil` ?
@@ -32,8 +33,35 @@ var name:String! = nil
 
 但其實 Apple 還有一個小小的篇幅在講解 [**Implicitly Unwrapped Optional**](https://developer.apple.com/library/ios/documentation/Swift/Conceptual/Swift_Programming_Language/TheBasics.html#//apple_ref/doc/uid/TP40014097-CH5-ID334)，而這又是什麼東東呢？
 
-因為這裡討論的主人翁 `!` 不是操作運算子，就是上面提到的**Implicitly Unwrapped Optional**，這是另一種 `Optional`，中文翻叫 **隱式被解開的 Optional** (好難翻譯XD)，有趣的是，它也是一個 `enum` ，機制與 `Optional` 一模一樣，所以其實你完全可以把他當成我們之前討論的 `Optional` 也就是 `?` 來看待。
+因為這裡討論的主人翁 `!` 不是操作運算子，就是上面提到的**Implicitly Unwrapped Optional**，這是另一種 `Optional`，中文翻叫 **隱式被解開的 Optional**。
 
-## 為什麼要搞兩個 Optional ?
+有趣的是，它也是一個 `enum` ，機制與 `Optional` 一模一樣，所以其實你完全可以把他當成我們之前討論的 `Optional` 來看待，甚至在所有使用 `Optional` 的地方，替換成 `ImplicitlyUnwrappedOptional` 。
 
+```swift
+//等同 var name:String? = nil
+var name:Optional<String> = nil
 
+//等同 var name:String! = nil
+var name:ImplicitlyUnwrappedOptional<String> = nil
+```
+
+只是我們鮮少會使用這麼長的 `ImplicitlyUnwrappedOptional` 進行宣告，而是使用了 `!` 做為替換。
+
+## `Implicitly Unwrapped Optional` 是什麼? 為什麼要搞兩個 Optional ?
+
+如果查詢一下 `ImplicitlyUnwrappedOptional` 的宣告，可以看到：
+```swift
+/// An optional type that allows implicit member access.
+```
+這一個宣告寫的很簡單，但如果你有機會看到之前版本的宣告，你可以看到一個很有趣的說明：
+
+```swift
+/// An optional type that allows implicit member access (via compiler magic).
+///
+/// The compiler has special knowledge of the existence of
+/// `ImplicitlyUnwrappedOptional<Wrapped>`, but always interacts with it using
+/// the library intrinsics below.
+```
+其中 **(via compiler magic)** 是指什麼呢？
+
+其實`ImplicitlyUnwrappedOptional` 被付予幾個特性，
